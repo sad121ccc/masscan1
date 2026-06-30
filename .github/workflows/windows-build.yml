@@ -1,0 +1,26 @@
+name: build-masscan-windows
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install tools
+      run: |
+        choco install mingw make -y
+
+    - name: Build
+      run: |
+        mingw32-make
+
+    - name: Upload exe
+      uses: actions/upload-artifact@v4
+      with:
+        name: masscan-windows
+        path: bin/*.exe
